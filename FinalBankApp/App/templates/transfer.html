@@ -1,0 +1,20 @@
+{% extends "transaction.html" %}
+
+{% block title %}Transfer - RECoBank{% endblock %}
+
+{% block transaction_content %}
+<h2>Transfer</h2>
+<form action="{{ url_for('transaction.transfer') }}" method="post">
+    <label for="from_account">From Account:</label>
+    <select id="from_account" name="from_account">
+        {% for account in accounts %}
+        <option value="{{ account.id }}">{{ account.account_number }}</option>
+        {% endfor %}
+    </select>
+    <label for="to_account">To Account:</label>
+    <input type="text" id="to_account" name="to_account" required>
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" name="amount" required>
+    <button type="submit">Transfer</button>
+</form>
+{% endblock %}
