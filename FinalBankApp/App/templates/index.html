@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}RECoBank{% endblock %}
+
+{% block content %}
+<h1>Welcome to RECoBank</h1>
+<p>Manage your accounts, transactions, and customers with our secure online banking platform.</p>
+
+{% if current_user.is_authenticated %}
+  <h2>Quick Actions</h2>
+  <ul>
+    <li><a href="{{ url_for('customer.dashboard') }}">Dashboard</a></li>
+    <li><a href="{{ url_for('account.create_account') }}">Create Account</a></li>
+    <li><a href="{{ url_for('transaction.transfer') }}">Transfer</a></li>
+    <li><a href="{{ url_for('transaction.deposit') }}">Deposit</a></li>
+    <li><a href="{{ url_for('transaction.withdraw') }}">Withdraw</a></li>
+    <li><a href="{{ url_for('transaction.transaction_history') }}">Transaction History</a></li>
+  </ul>
+
+  {% if current_user.is_admin %}
+    <h2>Admin Actions</h2>
+    <ul>
+      <li><a href="{{ url_for('customer.create_customer') }}">Create Customer</a></li>
+    </ul>
+  {% endif %}
+
+  <p><a href="{{ url_for('auth.logout') }}">Logout</a></p>
+{% else %}
+  <h2>Get Started</h2>
+  <p>
+    <a href="{{ url_for('auth.login') }}">Login</a> to manage your account.
+  </p>
+  <p>
+    Don't have an account? <a href="{{ url_for('auth.sign_up') }}">Sign up</a> now.
+  </p>
+{% endif %}
+{% endblock %}
