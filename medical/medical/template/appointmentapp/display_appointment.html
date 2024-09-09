@@ -1,0 +1,93 @@
+{% extends "common.html" %}
+    {% block content %}
+    {% load static %}
+    <table class="table align-middle mb-0 bg-white">
+        <thead class="bg-light">
+          <tr>
+            <th>#</th>
+            <th>Client Name</th>
+            <th>Booking Date&Time</th>
+            <th>Approved Date&Time</th>
+            <th>Doctor in Charge</th>
+            <th>Department</th>
+            <th>Status</th>
+            {% if request.user.is_staff %}
+            <th>Edit</th>
+            {% else %}
+            <th>Edit</th>
+            <th>Delete</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for appointment in appointments %} 
+          <tr>
+            <td>
+              <p class="fw-normal mb-1">APPT-0{{appointment.appointment_id}}</p>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="ms-3">
+                  <p class="fw-bold mb-1">{{appointment.client_name}}</p>
+                  <p class="text-muted mb-0">{{appointment.client_email}}</p>
+                </div>
+              </div>
+            </td>
+            <td>
+                <div class="d-flex align-items-center">
+                  <div class="ms-3">
+                    <p class="fw-bold mb-1">{{appointment.appointment_date}}</p>
+                    <p class="text-muted mb-0">{{appointment.appointment_time}}</p>
+                  </div>
+                </div>
+            </td>
+            <td>
+                <div class="d-flex align-items-center">
+                  <div class="ms-3">
+                    <p class="fw-bold mb-1">{{appointment.approved_date}}</p>
+                    <p class="text-muted mb-0">{{appointment.approved_time}}</p>
+                  </div>
+                </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <div class="ms-3">
+                  <p class="fw-bold mb-1">Dr. {{appointment.doctor_incharge.first_name}} {{appointment.doctor_incharge.last_name}}</p>
+                  <p class="text-muted mb-0">{{appointment.doctor_incharge.email}}</p>
+                </div>
+              </div>
+            </td>
+            <td>
+              <p class="fw-normal mb-1">{{appointment.department}}</p>
+            </td>
+            <td>
+              {% if appointment.status == 'Approved' %}
+              <span class="text-success">{{appointment.status}}</span>
+              {% elif appointment.status == 'Declined' %}
+              <span class="text-warning">{{appointment.status}}</span>
+              {% else %}
+              <span class="text-primary">{{appointment.status}}</span>
+              {% endif %}
+            </td>
+            {% if request.user.is_staff %}
+            <td>
+              <a href="{% url "edit_appointment" appointment.appointment_id %}"><button type="button" class="btn btn-link btn-sm text-primary btn-rounded">
+                Edit
+              </button></a>
+            </td>
+            {% else %}
+            <td>
+              <a href="{% url "edit_appointment" appointment.appointment_id %}"><button type="button" class="btn btn-link btn-sm text-primary btn-rounded">
+                Edit
+              </button></a>
+            </td>
+            <td>
+
+              <a href="{% url "delete_appointment" appointment.appointment_id %}"><button type="button" class="btn btn-link btn-sm text-danger btn-rounded">
+                Delete
+              </button></a>
+            </td>{% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endblock %}

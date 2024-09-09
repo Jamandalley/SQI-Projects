@@ -1,0 +1,66 @@
+{% extends "common.html" %}
+    {% block content %}
+    {% load static %}
+
+    <section class="row my-4">
+        {% if services %} {% for service in services %}
+            <div class="shadow border col-sm-12 col-md-4 pt-3" style="height: auto; margin: auto;">
+                    <div class=" container-fluid d-flex py-4">
+                        <div class=" border border-primary rounded-circle " style="height: 100px; width: 100px;">
+                            {% if service.service_logo %}
+                            <img src="{{service.service_logo.url}}" alt="{{service.user.username}}" width="100px" height="100px"/>
+                            {% else %}
+                            <img src="{% static "img/team-2.jpg" %}" alt="{{service.user.username}}" width="100px" height="100px"/>
+                            {% comment %} <i class="fas fa-user fa-lg fa-fw me-2"></i> {% endcomment %}
+                            {% endif %}
+                        </div>
+                        <h5 class="align-self-center mx-3">Service Details</h5>
+                        
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                            <td class="py-3" style="width: 150px;">Title:</td>
+                            <td class="py-3">{{service.service_option}}</td>
+                            </tr>
+                            <tr>
+                            <td class="py-3" style="width: 150px;">Description:</td>
+                            <td class="py-3">{{service.description}}</td>
+                            </tr>
+                            <tr>
+                            <td class="py-3" style="width: 150px;">Price:</td>
+                            <td class="py-3">$ {{service.price}}</td>
+                            </tr>
+                            <tr>
+                            <td class="py-3" style="width: 150px;">for more info:</td>
+                            <td class="py-3">{{service.HoD.email}}</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                
+                <div class= "field">
+                    <div class ="control d-flex justify-content-center gap-2 py-4">
+                
+                        <a href="">
+                            <button type="submit" class="btn btn-primary">
+                                Book Service
+                            </button>
+                        </a> 
+                    </div>
+                    <p>
+                        <span class="text-primary">
+                            {% for message in messages %}
+                            <div class="alert {{ message.tags }} mb-4" role="alert">
+                            {{ message }}
+                            </div>
+                            {% endfor %} 
+                        </span>
+                    </p>
+                </div>
+            </div>
+            
+            {% endfor %} {% endif %}
+        </section>
+
+    {% endblock %}
